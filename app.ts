@@ -151,20 +151,183 @@
 // ============== Data types Intersection
 // Here you intersect multiple data types/interfaces
 // An example below is a person in a company database that is both an employee/user and business partner
-interface BusinessPartner {
+// interface BusinessPartner {
+//     name: string;
+//     creditScore: number;
+// }
+
+// interface UserIdentity {
+//     id: number;
+//     email: string;
+// }
+
+// type Employee = BusinessPartner & UserIdentity
+
+// const signContract = (employee: Employee): void => {
+//     console.log(`Contract signed by ${employee.name}, with email ${employee.email}`);
+// }
+
+// signContract({ name: "Kelvin Gates", creditScore: 800, id: 787, email: "kev.dev@gmail.com" });
+
+
+
+
+
+
+// ============== Enum
+// An enum (short for enumeration) in TypeScript is a special type that allows you to define a set of named constants. It provides a way to associate names with numeric or string values, making the code more readable and maintainable.
+
+// // Error handing
+// enum LoginError {
+//     Unauthorised = "unauthorised",
+//     NoUser = "nouser",
+//     WrongCredentials = "wrongcredentials",
+//     Internal = "internal",
+// }
+
+// const logErrorMsg = (error: LoginError) => {
+//     if (error === LoginError.Unauthorised) {
+//         console.log("User not authorised!");
+//     } else if (error === LoginError.NoUser) {
+//         console.log("No user was found with that username.");
+//     } else if (error === LoginError.WrongCredentials) {
+//         console.log("Wrong username/password combination");
+//     } else if (error === LoginError.Internal) {
+//         console.log("Internal Error.");
+//     } else {
+//         console.log("Unknown issue");
+//     }
+// }
+
+// logErrorMsg(LoginError.Unauthorised);
+// logErrorMsg(LoginError.Internal);
+
+
+// Handling API Statuses
+// enum HttpStatus {
+//     OK = 200,
+//     NotFound = 404,
+//     InternalServerError = 500
+// }
+
+// // what "" does is 
+// // Explicitly declares responseStatus as a variable of type HttpStatus.
+// // Now, responseStatus can hold any value from the HttpStatus enum, rather than being fixed to 200.
+// const responseStatus: HttpStatus = HttpStatus.OK;
+// console.log(responseStatus);
+
+
+// // Defining user roles
+// enum UserRole {
+//     Admin = "ADMIN",
+//     Editor = "EDITOR",
+//     Viewer = "VIEWER",
+// }
+
+// const thisUserRole: UserRole = UserRole.Editor;
+// console.log(thisUserRole);
+// const thisUserRole2: UserRole = UserRole.Admin;
+// console.log(thisUserRole2);
+
+// // NB: (role: UserRole) → Declares a parameter named role with the type UserRole.
+// function checkUserAccess(role: UserRole) {
+//     if (role === UserRole.Admin) {
+//         console.log("Access granted: Admin role.");
+//     } else if (role === UserRole.Editor) {
+//         console.log("Access granted: Editor role.");
+//     } else if (role === UserRole.Viewer) {
+//         console.log("Access granted: Viewer role.");
+//     } else {
+//         console.log("No role not found: Access denied");
+//     }
+// }
+
+// checkUserAccess(UserRole.Admin);
+
+// const John = UserRole.Viewer;
+// checkUserAccess(John);
+
+
+
+
+
+
+// ============== Generics
+// Generics in TypeScript allow you to write flexible, reusable, and type-safe code. They enable functions, classes, and interfaces to work with multiple data types without losing type safety.
+// PS: TypeScript infers generic types automatically
+
+// <"T">: this is a place holder for the different data types that can be used such as strings or numbers
+// class StorageContainer<T> {
+//     // private → This means the contents variable can only be accessed inside the class. It cannot be accessed outside the class.
+//     // contents → This is the name of the variable that holds the stored items.
+//     // T[] → This declares contents as an array of type T, where T is a generic type.
+//     private contents: T[];
+
+//     constructor() {
+//         this.contents = [];
+//     };
+
+//     addItem(item: T): void {
+//         this.contents.push(item);
+//     };
+
+//     getItem(idx: number): T | undefined {
+//         return this.contents[idx];
+//     };
+// }
+
+// // <string> passes the datatype of string to <"T">
+// const usernames = new StorageContainer<string>();
+// usernames.addItem("Geto");
+// usernames.addItem("Grid");
+// usernames.addItem("Baka");
+
+// console.log(usernames.getItem(2));
+// console.log(usernames);
+
+// const menu = new StorageContainer<string>();
+// menu.addItem("Tomato");
+// menu.addItem("Pasta");
+// menu.addItem("Spices");
+// menu.addItem("Meat");
+// menu.addItem("Vegitables");
+// menu.addItem("Stock");
+
+// console.log(menu);
+// console.log(menu.getItem(4));
+
+// const numOfFriends = new StorageContainer<number>();
+// numOfFriends.addItem(27);
+// numOfFriends.addItem(16);
+// numOfFriends.addItem(19);
+
+
+
+
+
+
+
+
+// ============== Read-Only Variables
+// Used for data that should never change such as an employee Id and the day they first started their work at the business
+interface Employee {
+    // Immutable data
+    readonly employeeId: number;
+    readonly startDate: Date;
+
     name: string;
-    creditScore: number;
+    department: string;
 }
 
-interface UserIdentity {
-    id: number;
-    email: string;
-}
+const employee: Employee = {
+    employeeId: 231243123,
+    startDate: new Date(),
+    name: "Johnny",
+    department: "Acquisitions",
+};
 
-type Employee = BusinessPartner & UserIdentity
+console.log(employee);
 
-const signContract = (employee: Employee): void => {
-    console.log(`Contract signed by ${employee.name}, with email ${employee.email}`);
-}
-
-signContract({ name: "Kelvin Gates", creditScore: 800, id: 787, email: "kev.dev@gmail.com" });
+employee.name = "Jake";
+employee.department = "Finance";
+console.log(employee);
